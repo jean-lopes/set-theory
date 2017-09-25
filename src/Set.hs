@@ -26,9 +26,6 @@ eval (SymmetricDifference x y) = eval $ Difference u i
     u = Union x y
     i = Intersection x y
 
-cartesianProduct :: [a] -> [a] -> [(a, a)]
-cartesianProduct xs ys = [ (x, y) | x <- xs, y <- ys ]
-
 pretty :: [Int] -> String
 pretty xs = "{" ++ intercalate ", " (map show xs) ++ "}"
 
@@ -47,19 +44,6 @@ closed o p c = open *> p <* close
     open = lexeme $ char o
     close = lexeme $ char c
 
-parens :: Parser a -> Parser a
-parens p = do
-    _ <- char '('
-    value <- p
-    _ <- char ')'
-    return value
-
-parens' :: Parser a -> Parser a
-parens' p = char '(' *> p <* char ')'
-
-parens'' :: Parser a -> Parser a
-parens'' p = char '(' >> p >>= \x -> char ')' >> return x
-
 chainl :: Parser a -> Parser (a -> a -> a) -> Parser a
 chainl p op = p >>= rest
   where
@@ -67,9 +51,6 @@ chainl p op = p >>= rest
 
 int :: Parser Int
 int = lexeme $ (read <$> some digitChar)
-
-int' :: Parser Int
-int' = read <$> (some digitChar)
 
 comma :: Parser ()
 comma = lexeme $ void $ char ','

@@ -1,0 +1,13 @@
+element = ? integer ?;
+
+elements = element, { ',', element };
+
+set = '{', elements, '}';
+
+expr = set
+     | '(', expr, ')'
+     | expr, '+', expr
+     | expr, '^', expr
+     | expr, '-', expr
+     | expr, '<>', expr
+     ;
